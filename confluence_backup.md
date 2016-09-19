@@ -1,14 +1,21 @@
+# Setup AWS CLI
+sudo apt-get install awscli
+
+# Setup AWS config on /.aws/config (example 2 users)
+[default]
+region=us-west-2
+output=json
+aws_secret_access_key =
+aws_access_key_id = 
+
+[profile user2]
+region=us-west-2
+output=json
+aws_secret_access_key=
+aws_access_key_id=
+
 #!/bin/bash
 # You need to pass an argument for either daily or archive so we know which bucket to put the backup. 
-
-# Setup AWS CLI
-# sudo apt-get install awscli
-# Setup AWS config on /.aws/config
-
-# Crontab
-# 0 6 * * 1,2,3,4,5,6 /root/confluence_backup.sh daily
-# 0 6 * * 0 /root/confluence_backup.sh archive
-
 # Set the time stamp
 DATE=$(date +"%Y%m%d%H%M")
 
@@ -24,3 +31,7 @@ s3://path/to/${1}/backupfile${DATE}.tar.gz --region=us-west-1
 
 #Get rid of the local file
 rm -f /path/to/backupfile{DATE}.tar.gz /path/to/sqlfile${DATE}.sql
+
+# Crontab
+0 6 * * 1,2,3,4,5,6 /root/confluence_backup.sh daily
+0 6 * * 0 /root/confluence_backup.sh archive
